@@ -20,12 +20,20 @@ public class Generics {
         gen.printObject(third);
         System.out.println();
 
+        /*
+        gen.printBoundedWildCard(first);
+        не будет работать, т.к. только Predator и его наследники, Animal же родитель к Predator (ограничение сверху)
+         */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
+        /*
+        gen.printLowerBoundedWildCard(third);
+        не будет работать, т.к. только "родители" Predator, а Tiger - наследник (ограничение снизу)
+         */
     }
 
     public void printObject(List<?> list) {
