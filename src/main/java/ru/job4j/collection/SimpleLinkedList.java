@@ -13,12 +13,15 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
 
     @Override
     public void add(E value) {
-        final Node<E> n = head;
-        Node<E> lastNode = new Node<E>(value, n);
-        if (n == null) {
+        Node<E> previous = head;
+        Node<E> lastNode = new Node<E>(value, null);
+        if (previous == null) {
             head = lastNode;
-            } else {
-            head.next = lastNode;
+        } else {
+            while (previous.next != null) {
+                previous = previous.next;
+            }
+            previous.next = lastNode;
         }
         size++;
         modCount++;
@@ -29,20 +32,15 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         Objects.checkIndex(index, size);
         Node<E> el = head;
         for (int i = 0; i < index; i++) {
-            el = getHead(el);
+            el = el.next;
         }
         return el.item;
-    }
-
-    private Node<E> getHead(Node<E> el) {
-        return el.next;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             Node<E> el;
-            int index = 0;
             final int expectedCount = modCount;
 
             @Override
@@ -50,7 +48,11 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 if (modCount != expectedCount) {
                     throw new ConcurrentModificationException();
                 }
-                return index < size;
+                el = head;
+                while (el.next != null) {
+                   el = el.next;
+            }
+                return false;
             }
 
             @Override
@@ -58,8 +60,8 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                    return get(index++);
-                }
+                return el.item;
+            }
         };
     }
 
