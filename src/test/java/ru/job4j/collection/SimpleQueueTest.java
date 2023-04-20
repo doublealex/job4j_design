@@ -37,7 +37,8 @@ class SimpleQueueTest {
     void whenEmptyPoll() {
         SimpleQueue<Integer> queue = new SimpleQueue<>();
         assertThatThrownBy(queue::poll)
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("Queue is empty");
     }
 
     @Test
@@ -46,7 +47,8 @@ class SimpleQueueTest {
         queue.push(2);
         queue.poll();
         assertThatThrownBy(queue::poll)
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("Queue is empty");
     }
 
     @Test

@@ -11,6 +11,9 @@ public class SimpleQueue<T> {
     private int countOut = 0;
 
     public T poll() {
+        if (countOut == 0 && countIn == 0) {
+            throw new NoSuchElementException("Queue is empty");
+        }
         if (countOut == 0) {
             while (countIn != 0) {
                 out.push(in.pop());
