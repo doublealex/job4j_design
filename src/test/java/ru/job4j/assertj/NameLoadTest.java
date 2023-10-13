@@ -40,4 +40,15 @@ class NameLoadTest {
                 .hasMessageContaining("this name: =j does not contain a key")
                 .hasMessageContaining(map);
     }
+
+    @Test
+    void checkContainNoValues() {
+        NameLoad nameLoad = new NameLoad();
+        String map = "";
+        assertThatThrownBy(nameLoad::getMap)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("collection contains no data")
+                .hasMessageContaining(map);
+    }
+
 }
