@@ -1,28 +1,17 @@
 package ru.job4j.io;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.PrintWriter;
 
 public class ResultFile {
     public static void main(String[] args) {
-        try (FileOutputStream out = new FileOutputStream("data/dataresult.txt")) {
-            out.write("1 * 2 = 2".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("2 * 3 = 3".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("1 * 4 = 4".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("1 * 5 = 5".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("1 * 6 = 6".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("1 * 7 = 7".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("1 * 8 = 8".getBytes());
-            out.write(System.lineSeparator().getBytes());
-            out.write("1 * 9 = 9".getBytes());
-            out.write(System.lineSeparator().getBytes());
-        } catch (IOException e) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedOutputStream(
+                        new FileOutputStream("data/result.txt")
+                ))) {
+            out.println("Hello, world!");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
