@@ -14,7 +14,7 @@ public class Dir {
         }
         System.out.println(String.format("size C: %s Gb", file.getTotalSpace() / Math.pow(1024, 3)));
         for (File subfile : Objects.requireNonNull(file.listFiles())) {
-            System.out.println(subfile.getName() + String.format(" %s Kb", subfile.length() / 1024));
+            System.out.println(String.format("%s %s Kb", subfile.getName(), subfile.length() / 1024));
         }
     }
 }
