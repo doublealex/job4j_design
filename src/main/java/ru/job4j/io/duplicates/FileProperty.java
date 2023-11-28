@@ -43,8 +43,7 @@ public class FileProperty {
 
     @Override
     public String toString() {
-        return "Дубликаты: " + '\''
-                + "Файл {" + "size=" + size + ", name='" + name + '\'' + '}';
+        return "Файл {" + "size=" + size + ", name='" + name + '\'' + '}';
     }
 
     @Override
