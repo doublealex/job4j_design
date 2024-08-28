@@ -13,8 +13,17 @@ public class EchoServer {
                      BufferedReader input = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    if (input.readLine().contains("msg=Bye")) {
-                        server.close();
+                    String msg = input.readLine();
+                    if (msg != null) {
+                        if (msg.contains("msg=Exit")) {
+                            server.close();
+                        }
+                        if (msg.contains("msg=Hello")) {
+                            output.write("Hello.".getBytes());
+                        } else {
+                            String answer = msg.split("=")[1];
+                            output.write(answer.getBytes());
+                        }
                     }
                     for (String string = input.readLine(); string != null && !string.isEmpty(); string = input.readLine()) {
                         System.out.println(string);
