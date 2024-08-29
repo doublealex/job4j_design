@@ -17,6 +17,26 @@ public class Team {
         this.statistics = statistics;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isExist() {
+        return exist;
+    }
+
+    public int getFounded() {
+        return founded;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public String[] getStatistics() {
+        return statistics;
+    }
+
     @Override
     public String toString() {
         return "Team{"
