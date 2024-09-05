@@ -29,13 +29,13 @@ public class ConsoleChat {
             String userIn = input.nextLine();
             log.add("User: " + userIn + "\n");
 
-            if (userIn.equalsIgnoreCase(STOP)) {
+            if (STOP.equalsIgnoreCase(userIn)) {
                 isActive = false;
             }
-            if (userIn.equalsIgnoreCase(CONTINUE)) {
+            if (CONTINUE.equalsIgnoreCase(userIn)) {
                 isActive = true;
             }
-            if (userIn.equalsIgnoreCase(OUT)) {
+            if (OUT.equalsIgnoreCase(userIn)) {
                 isActive = false;
                 isRunning = false;
             }
