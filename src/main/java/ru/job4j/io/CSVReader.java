@@ -5,7 +5,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.*;
 
-// -path=file.csv -delimiter=; -out=stdout -filter=name,age
+/* -path=file.csv -delimiter=; -out=stdout -filter=name,age */
 
 public class CSVReader {
     private static final String PATH = "path";
@@ -15,8 +15,9 @@ public class CSVReader {
 
     public static void handle(ArgsName argsName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(argsName.get("out")))) {
+            List<String> filteredData = filterCSV(argsName);
+
             if ("stdout".equals(argsName.get("out"))) {
-                List<String> filteredData = filterCSV(argsName);
                 for (String line : filteredData) {
                     System.out.println(line);
                 }
@@ -39,29 +40,38 @@ public class CSVReader {
 
             Map<String, Integer> headerIndexMap = new HashMap<>();
             int index = 0;
-            // Считываем заголовки
+            /* Считываем заголовки */
             while (headerScanner.hasNext()) {
                 String head = headerScanner.next();
                 headerIndexMap.put(head, index++);
             }
-            // Чтение и вывод данных, соответствующих заголовкам из filter
+
+            for (String filter : filters) {
+                if (headerIndexMap.containsKey(filter)) {
+                    filteredValues.add(filter);
+                }
+            }
+
+            /* Чтение и вывод данных, соответствующих заголовкам из filter */
             String line;
             while ((line = reader.readLine()) != null) {
                 Scanner lineScanner = new Scanner((new ByteArrayInputStream(line.getBytes())))
                         .useDelimiter(argsName.get("delimiter"));
+                List<String> selected = new ArrayList<>();
                 String[] values = new String[headerIndexMap.size()];
                 int colIndex = 0;
                 while (lineScanner.hasNext()) {
                     values[colIndex++] = lineScanner.next();
                 }
 
-                // Собираем те значения, которые соответствуют фильтрам
+                /* Собираем те значения, которые соответствуют фильтрам */
                 for (String filter : filters) {
-                    int columnIndex = headerIndexMap.get(filter);
-                    if (columnIndex < values.length) {
-                        filteredValues.add(values[columnIndex]);
+                    Integer columnIndex = headerIndexMap.get(filter);
+                    if (columnIndex != null && columnIndex < values.length) {
+                        selected.add(values[columnIndex]);
                     }
                 }
+                filteredValues.add(String.join(",", selected));
             }
         } catch (IOException e) {
             e.printStackTrace();
